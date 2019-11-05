@@ -1,5 +1,6 @@
 package uk.ac.soton.ecs.bl1g17.hybridimages;
 
+import org.openimaj.OpenIMAJ;
 import org.openimaj.image.DisplayUtilities;
 import org.openimaj.image.FImage;
 import org.openimaj.image.ImageUtilities;
@@ -25,12 +26,13 @@ public class App {
     public static void main( String[] args ) {
         MBFImage lowImage = null;
         MBFImage highImage = null;
-        float lowSigma = 5f;
-        float highSigma = 5f;
+        float lowSigma = 3.0f;
+        float highSigma = 9.0f;
 
         try {
             lowImage = ImageUtilities.readMBF(new File("data/panda.jpg"));
             highImage = ImageUtilities.readMBF(new File("data/flute.jpg"));
+
 
             MBFImage res = MyHybridImages.makeHybrid(lowImage, lowSigma, highImage, highSigma);
 
@@ -51,6 +53,7 @@ public class App {
         MBFImage[] imagesResized = new MBFImage[n+1];
         imagesResized[0] = img;
         int j = 1;
+        int totalWidth = img.getWidth();
 
 
 
@@ -60,17 +63,29 @@ public class App {
 //            frame.setUndecorated(true);
 //            DisplayUtilities.display(prevImage, frame);
 
-            DisplayUtilities.displayLinked("Images", 1, prevImage);
+//            DisplayUtilities.displayLinked("Images", 1, prevImage);
 
             MBFImage tmpClone = prevImage.clone();
 //            System.out.println(tmpClone.getWidth() + " <-> "  + tmpClone.getHeight());
             tmpClone.processInplace(scaler);
 //            imagesResized.add(tmpClone);
             imagesResized[j] = tmpClone;
-
+            totalWidth += tmpClone.getWidth();
             prevImage = tmpClone;
             j++;
         }
+
+        MBFImage filteredImages = new MBFImage(totalWidth, img.getHeight());
+        int x = 0;
+
+        for(MBFImage curr : imagesResized){
+            filteredImages.drawImage(curr, x, img.getHeight() - curr.getHeight());
+            x += curr.getWidth();
+        }
+
+        DisplayUtilities.display(filteredImages);
+//        filteredImages.drawImage(HPimgVis1, 0, 0);
+//        filteredImages.drawImage(HPimgVis2, image1.getWidth(), 0);
 
 //        DisplayUtilities.display("Images", n, imagesResized);
 
