@@ -4,8 +4,7 @@ import org.openimaj.image.DisplayUtilities;
 import org.openimaj.image.FImage;
 import org.openimaj.image.MBFImage;
 import org.openimaj.image.colour.RGBColour;
-import org.openimaj.image.processing.convolution.FConvolution;
-import org.openimaj.image.processing.convolution.FGaussianConvolve;
+import org.openimaj.image.combiner.ImageCombiner;
 import org.openimaj.image.processing.convolution.Gaussian2D;
 
 
@@ -36,8 +35,8 @@ public class MyHybridImages {
         MBFImage low = lowPassFilter(lowImage, lowSigma);
         MBFImage high = highPassFilter(highImage, highSigma);
 
-        DisplayUtilities.display(low);
-        DisplayUtilities.display(high);
+//        DisplayUtilities.display(low);
+//        DisplayUtilities.display(high);
 
 
         low.addInplace(high);
