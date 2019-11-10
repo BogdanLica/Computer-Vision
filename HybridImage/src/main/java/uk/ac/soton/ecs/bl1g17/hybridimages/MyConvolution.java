@@ -11,15 +11,13 @@ public class MyConvolution implements SinglebandImageProcessor<Float, FImage> {
         this.kernel = kernel;
     }
 
-    //TODO:
-    /*
-    * kernel[templateRows - jwin][templateCols - iwin] a bit different from book
-     */
+
     @Override
     public void processImage(FImage image) {
         int paddingWidth = kernel[0].length / 2;
         int paddingHeight = kernel.length / 2;
         FImage padded = image.padding(paddingWidth, paddingHeight, 0f);
+
         // get the sizes of the image
         int imageRows = padded.getRows();
         int imageCols = padded.getCols();
@@ -30,11 +28,9 @@ public class MyConvolution implements SinglebandImageProcessor<Float, FImage> {
         int tr = templateRows / 2;
         int tc = templateCols / 2;
 
-        // create the buffered image
-//        double[] res = new double[imageRows * imageCols];
+
         FImage tmpImage = new FImage(image.getCols(), image.getRows());
         tmpImage.fill(0f);
-
 
         for(int x = tc+1; x < imageCols - tc; x++){
             for(int y = tr+1; y < imageRows - tr; y++){
@@ -49,7 +45,7 @@ public class MyConvolution implements SinglebandImageProcessor<Float, FImage> {
                     }
                 }
 
-                tmpImage.pixels[y -paddingHeight ][x - paddingWidth] = sum;
+                tmpImage.pixels[y -paddingHeight][x - paddingWidth] = sum;
             }
         }
 

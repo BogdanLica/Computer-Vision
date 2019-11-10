@@ -1,10 +1,7 @@
 package uk.ac.soton.ecs.bl1g17.hybridimages;
 
-import org.openimaj.image.DisplayUtilities;
 import org.openimaj.image.FImage;
 import org.openimaj.image.MBFImage;
-import org.openimaj.image.colour.RGBColour;
-import org.openimaj.image.processing.convolution.FConvolution;
 import org.openimaj.image.processing.convolution.Gaussian2D;
 
 
@@ -35,33 +32,6 @@ public class MyHybridImages {
         MBFImage low = lowPassFilter(lowImage, lowSigma);
         MBFImage high = highPassFilter(highImage, highSigma);
 
-//        System.out.println(low.getWidth() + " < - > " + low.getHeight());
-//        System.out.println(high.getWidth() + " < - > " + high.getHeight());
-
-
-//        DisplayUtilities.display(low);
-//        DisplayUtilities.display(high);
-
-
-//        int differenceWidth = low.getWidth() - high.getWidth();
-//        int differenceHeight = low.getHeight() - high.getHeight();
-//
-//        if(differenceHeight != 0 ){
-//            System.out.println("here");
-//            if(differenceHeight < 0)
-//                low.padding(0, Math.abs(differenceHeight)/2, RGBColour.BLACK );
-//            else high.padding(0, Math.abs(differenceHeight)/2, RGBColour.BLACK );
-//        }
-//
-//        if(differenceWidth != 0 ){
-//            System.out.println("here1");
-//            if(differenceWidth < 0)
-//                low.padding(Math.abs(differenceWidth)/2, 0 , RGBColour.BLACK );
-//            else high.padding(Math.abs(differenceWidth)/2, 0 , RGBColour.BLACK );
-//        }
-
-//        return high.overlay(low,0,0).trim();
-
         return low.add(high);
     }
 
@@ -74,11 +44,8 @@ public class MyHybridImages {
      */
     private static MBFImage lowPassFilter(MBFImage image, float sigma){
         int size = getSizeFromSigma(sigma);
-
         FImage kernelGaussian = Gaussian2D.createKernelImage(size, sigma);
-//        MBFImage paddedImage = createZeroPadding(image, sigma);
-//        return image
-//                .process(new FConvolution(kernelGaussian.pixels));
+
         return image
                 .process(new MyConvolution(kernelGaussian.pixels));
     }
@@ -87,19 +54,8 @@ public class MyHybridImages {
         MBFImage clone = image.clone();
         MBFImage lowFilter = lowPassFilter(image, sigma);
 
-//        DisplayUtilities.display(clone);
-//        DisplayUtilities.display(lowFilter);
-
         clone.subtractInplace(lowFilter);
         return clone;
-    }
-
-
-    private static MBFImage createZeroPadding(MBFImage img, float sigma ){
-        int size = getSizeFromSigma(sigma);
-        if (size % 2 != 0) size--; // size must be odd
-        System.out.println(size);
-        return img.padding(size/2, size/2, RGBColour.BLACK );
     }
 
     private static int getSizeFromSigma(float sigma){

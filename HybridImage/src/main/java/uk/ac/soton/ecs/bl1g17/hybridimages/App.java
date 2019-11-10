@@ -26,8 +26,8 @@ public class App {
     public static void main( String[] args ) {
         MBFImage lowImage = null;
         MBFImage highImage = null;
-        float lowSigma = 3.0f;
-        float highSigma = 9.0f;
+        float lowSigma = 25.0f;
+        float highSigma = 5.0f;
 
         try {
             lowImage = ImageUtilities.readMBF(new File("data/panda.jpg"));
@@ -59,18 +59,13 @@ public class App {
 
         MBFImage prevImage = img;
         for(int i = 1; i <= n; i++){
-//            JFrame frame = DisplayUtilities.makeFrame("Image");
-//            frame.setUndecorated(true);
-//            DisplayUtilities.display(prevImage, frame);
-
-//            DisplayUtilities.displayLinked("Images", 1, prevImage);
 
             MBFImage tmpClone = prevImage.clone();
-//            System.out.println(tmpClone.getWidth() + " <-> "  + tmpClone.getHeight());
             tmpClone.processInplace(scaler);
-//            imagesResized.add(tmpClone);
+
             imagesResized[j] = tmpClone;
             totalWidth += tmpClone.getWidth();
+
             prevImage = tmpClone;
             j++;
         }
@@ -83,12 +78,11 @@ public class App {
             x += curr.getWidth();
         }
 
+//        try {
+//            ImageUtilities.write(filteredImages, new File("output.jpg"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         DisplayUtilities.display(filteredImages);
-//        filteredImages.drawImage(HPimgVis1, 0, 0);
-//        filteredImages.drawImage(HPimgVis2, image1.getWidth(), 0);
-
-//        DisplayUtilities.display("Images", n, imagesResized);
-
-//        DisplayUtilities.display("Images", imagesResized);
     }
 }
