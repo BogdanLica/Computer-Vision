@@ -77,7 +77,23 @@ public class App {
 
 
             // 6.1.2. Exercise 2: Find out more about VFS datasets
-
+            // Supported sources:
+            // 1. BZIP2
+            // 2. File
+            // 3. FTP
+            // 4. FTPS
+            // 5. GZIP
+            // 6. HDFS
+            // 7. HTTP
+            // 8. HTTPS
+            // 9. Jar
+            // 10. RAM
+            // 11. RES
+            // 12. SFTP
+            // 13. Tar
+            // 14. Temp
+            // 15. WebDAV
+            // 16. Zip
 
 
 
