@@ -1,4 +1,4 @@
-package uk.ac.soton.ecs.bl1g17;
+package uk.ac.soton.ecs.bl1g17.ch2;
 
 import static org.junit.Assert.*;
 
